@@ -1,0 +1,4 @@
+<li id="task-{{ task.id }}">
+    {{ task.text }}
+    <button class="delete-btn" hx-delete="{{ url_for('delete_task', task_id=task.id) }}" hx-target="#task-{{ task.id }}" hx-swap="outerHTML">Delete</button>
+</li>

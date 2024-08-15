@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-tool"
+version = "0.0.23"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+description = "A tool for working with Large Language Models"
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["llm", "ai", "nlp"]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/llm-tool"
+"Bug Tracker" = "https://github.com/yourusername/llm-tool/issues"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.in"]}
+#version = {attr = "llm_tool.__version__"}
+# For dynamic version, just add `__version__ = ****` to __init__.py, and add `dynamic = ["version",...]` above
+# and remove `version = ***` under [project] above
