@@ -1,5 +1,12 @@
-.venv
+*.venv/
 _version.py
 *.egg-info/
 __pycache__/
 .ipynb_checkpoints/
+data/*
+!data/.gitkeep
+*.db
+*.env
+build/
+.env
+.DS_Store

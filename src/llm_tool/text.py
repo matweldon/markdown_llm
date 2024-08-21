@@ -2,6 +2,7 @@ import llm
 import os
 import sys
 import re
+from llm_tool import OBSIDIAN_DIR
 
 def parse_file_contents(file_contents):
     pattern = r'%%(\w+)%%(.*?)(?=%%|$)'
@@ -18,7 +19,7 @@ def parse_file_contents(file_contents):
 
 
 
-def file_llm(file_path: str | os.PathLike) -> None:
+def text_llm(file_path: str | os.PathLike) -> None:
     """
     Read a file, parse as llm prompt, and append the result back to the original file.
 
@@ -46,7 +47,7 @@ def file_llm(file_path: str | os.PathLike) -> None:
 
     Examples
     --------
-    >>> remove_spaces_and_append('/path/to/your/file.txt')
+    >>> text_llm('/path/to/your/file.txt')
     """
     # Normalize the file path
     file_path = os.path.normpath(file_path)
@@ -79,6 +80,8 @@ def file_llm(file_path: str | os.PathLike) -> None:
             # Append the modified content back to the file
             with open(file_path, 'a') as file:
                 file.write('\n' + new_formatted_response)
+        else:
+            print("No new prompts.")
 
     except FileNotFoundError:
         print(f"Error: The file '{file_path}' was not found.")
@@ -91,6 +94,6 @@ def file_llm(file_path: str | os.PathLike) -> None:
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         patharg = sys.argv[1]
-        file_llm(patharg)
+        text_llm(patharg)
     else:
         print("No argument provided")
