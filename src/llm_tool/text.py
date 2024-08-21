@@ -5,6 +5,33 @@ import re
 from llm_tool import OBSIDIAN_DIR
 
 def parse_file_contents(file_contents):
+    pattern = r'# %(User|Assistant)\n(.*?)(?=# %User|# %Assistant|$)'
+    pattern_image = r'!\[.*?\]\((.*?)\)'
+    matches = re.findall(pattern, file_contents, re.DOTALL)
+    
+    result = []
+    for role, content in matches:
+        if role == 'User':
+            content_images = re.findall(pattern_image,content)
+            content_images_and_text = re.split(pattern_image,content)
+            content_images_and_text = [chunk.strip() for chunk in content_images_and_text if chunk.strip()]
+            chunks = []
+            for chunk in content_images_and_text:
+                if chunk in content_images:
+                    chunks.append({'type':'image','rel_path':chunk})
+                else:
+                    chunks.append({'type':'text','text':chunk})
+        else:
+            content = content.strip()
+            chunks = content
+        result.append({
+            "role": role.lower(),
+            "content": chunks
+        })
+    
+    return result
+
+def parse_file_contents_new(file_contents):
     pattern = r'%%(\w+)%%(.*?)(?=%%|$)'
     matches = re.findall(pattern, file_contents, re.DOTALL)
     
@@ -16,8 +43,6 @@ def parse_file_contents(file_contents):
         })
     
     return result
-
-
 
 def text_llm(file_path: str | os.PathLike) -> None:
     """
