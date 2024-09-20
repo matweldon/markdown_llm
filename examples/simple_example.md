@@ -18,9 +18,9 @@ Donald
 
 Describe this image
 
-![](data/cats.png)
+![](cats.png)
 
-<!--llm_comment
+<!--llm
 # %Assistant
 
 This image shows three adorable kittens sitting side by side on what appears to be a white surface, possibly the roof of a car or a similar structure. The kittens are of different colors:
@@ -32,7 +32,7 @@ This image shows three adorable kittens sitting side by side on what appears to 
 All three kittens are looking directly at the camera with alert, curious expressions. Their ears are perked up, showing their attentiveness. The background shows a blue sky with some white clouds and green foliage, suggesting an outdoor setting on a nice day.
 
 The composition of the image, with the three kittens lined up and looking at the camera, creates a charming and eye-catching scene that many would find appealing.
-llmc-->
+llm-->
 
 
 # %Assistant

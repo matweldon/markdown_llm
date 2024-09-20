@@ -5,7 +5,7 @@ system: Answer concisely.
 # %User
 
 
-![image1](data/cats.png)
+![image1](cats.png)
 
 How many cats are in the image? Are there any black cats?
 
