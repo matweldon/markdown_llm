@@ -34,16 +34,52 @@ This project is work-in-progress and only really for myself. This README was mai
 
 ## Usage
 
-1. Open your markdown file in your favorite text editor.
-2. Add the following syntax where you want to start a chat:
+Open your markdown file, and add the following syntax where you want to start a chat:
+
 > \# %User
 >
 > Write the prompt here...
 
-3. Run the script:
-   python -m llm_tool path/to/your_file.md
+Run the script:
+   
+   `python -m llm_tool your_file.md`
 
-4. The LLM's response will be inserted directly into your markdown file.
+The LLM's response will be inserted directly into your markdown file.
+
+> \# %User
+> 
+> What is President Reagan's first name? Just give me the answer.
+>
+> \# %Assistant
+>
+> Ronald
+
+Then you can carry on the conversation
+
+> \# %User
+> 
+> What about Thatcher?
+>
+> \# %Assistant
+>
+> Margaret
+
+You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This means that you can rerun responses to obtain different answers.
+
+The API is stateless -- this means that the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation.
+
+### Images
+
+The tool supports vision models -- currently only Anthropic Claude Sonnet 3.5.
+
+To add an image to the chat, add a markdown link to the relative path of the image:
+
+> # %User
+>
+> ![image1](data/cats.png)
+> How many cats are in the image? Are there any black cats?
+
+and then run the command. So far, I've only tested this with png files but it should also work with JPEG.
 
 ## Configuration
 
