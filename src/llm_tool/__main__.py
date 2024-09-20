@@ -1,4 +1,4 @@
-from llm_tool.parser import (parse_conversation,add_image_data_to_conversation)
+from llm_tool.parser import parse_conversation
 from llm_tool.llm_conversation import llm_conversation
 from llm_tool.claude_vision import claude_vision_conversation
 import os
@@ -9,13 +9,13 @@ def main(markdown_filepath):
 
     with open(markdown_filepath, 'r') as file:
         content = file.read()
-    pfc = parse_conversation(content)
+    parsed_file_contents = parse_conversation(content)
 
-    if pfc['metadata']['has_images']:
+    if parsed_file_contents['metadata']['has_images']:
         print('Handling images by using Anthropic API')
-        response = claude_vision_conversation(pfc,base_path)
+        response = claude_vision_conversation(parsed_file_contents,base_path)
     else:
-        response = llm_conversation(pfc)
+        response = llm_conversation(parsed_file_contents)
 
     with open(markdown_filepath,'a') as file:
         file.write('\n' + str(response))

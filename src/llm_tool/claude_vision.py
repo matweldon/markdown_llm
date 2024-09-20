@@ -25,5 +25,5 @@ def claude_vision_conversation(parsed_file_contents,base_path):
     )
 
     response = message.content[0].text
-    formatted_response = "# %Assistant\n\n" + response
+    formatted_response = "\n# %Assistant\n\n" + response
     return formatted_response

@@ -7,10 +7,15 @@ import anthropic
 from dotenv import load_dotenv
 from pathlib import Path
 
+def remove_ignored_text(file_contents,pattern=r'<!--llm.*?llm-->'):
+    return re.sub(pattern,'',file_contents,flags=re.DOTALL)
+
 def parse_conversation(file_contents):
+    pruned_file_contents = remove_ignored_text(file_contents)
+
     pattern = r'# %(User|Assistant)\n(.*?)(?=# %User|# %Assistant|$)'
     pattern_image = r'!\[.*?\]\((.*?)\)'
-    matches = re.findall(pattern, file_contents, re.DOTALL)
+    matches = re.findall(pattern, pruned_file_contents, re.DOTALL)
     
     conversation = []
     has_images = False
