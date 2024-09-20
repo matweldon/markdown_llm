@@ -7,7 +7,7 @@
 
 Chat with an LLM directly in your markdown documents!
 
-This command line tool extends Simon Willison's `llm` tool to allow you to have a conversation with an LLM in a markdown document. The idea is that you then have a permanent record of the conversation which you can submit to version control.
+This command line tool extends Simon Willison's amazing [llm](https://github.com/simonw/llm) tool to allow you to have a conversation with an LLM in a markdown document. The idea is that you then have a permanent record of the conversation which you can submit to version control.
 
 This project is work-in-progress and only really for myself. This README was mainly written by an LLM which is why it's so corny, and wrong.
 
