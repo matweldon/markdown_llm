@@ -21,16 +21,28 @@ This project is work-in-progress and only really for myself. This README was mai
 ## Installation
 
 1. Clone the repository:
-   git clone https://github.com/matweldon/llm_tool.git
+```bash   
+git clone https://github.com/matweldon/llm_tool.git
+```
 
 2. Navigate to the project directory:
-   cd llm_tool
+
+```bash
+cd llm_tool
+```
 
 3. Install the required dependencies:
-   pip install -r requirements.txt
 
-4. Set up your API key:
-   export LLM_API_KEY=your_api_key_here
+```bash
+pip install -r requirements.txt
+```
+or, using `pyproject.toml`
+
+```bash
+pip install .
+```
+
+4. Get an Anthropic API key and follow the instructions on Simon Willison's GitHub page to set it up.
 
 ## Usage
 
