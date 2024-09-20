@@ -94,13 +94,16 @@ To add an image to the chat, add a markdown link to the relative path of the ima
 
 and then run the command. So far, I've only tested this with png files but it should also work with JPEG.
 
-## Configuration
+## To do
 
-You can customize the behavior of the chat by editing the `config.yml` file:
-
-- `model`: Choose the LLM model to use
-- `temperature`: Adjust the creativity of the responses
-- `max_tokens`: Set the maximum length of the generated text
+* Add configuration options to change the model, system prompt, temperature etc
+  - YAML header in markdown (I think this will be most useful)
+  - config.toml
+  - command line options
+* Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt
+* Make it easier to deploy the package in other projects
+* Make it easier to install without having to use Simon W's API interface
+* Parse links to websites, strip tags and inline the text
 
 ## Contributing
 
