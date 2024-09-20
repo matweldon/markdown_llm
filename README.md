@@ -76,7 +76,7 @@ To add an image to the chat, add a markdown link to the relative path of the ima
 
 > # %User
 >
-> ![image1](data/cats.png)
+> \!\[image1\]\(data/cats.png\)
 > How many cats are in the image? Are there any black cats?
 
 and then run the command. So far, I've only tested this with png files but it should also work with JPEG.
