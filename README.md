@@ -36,7 +36,7 @@ This project is work-in-progress and only really for myself. This README was mai
 
 1. Open your markdown file in your favorite text editor.
 2. Add the following syntax where you want to start a chat:
-> # %User
+> \# %User
 >
 > Write the prompt here...
 
