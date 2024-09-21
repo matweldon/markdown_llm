@@ -106,10 +106,6 @@ and then run the command. So far, I've only tested this with png files but it sh
 * Make it easier to install without having to use Simon W's API interface
 * Parse links to websites, strip tags and inline the text
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## Acknowledgments
 
 - Thanks to Simon Willison for creating the package this package depends on
