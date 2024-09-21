@@ -75,7 +75,7 @@ Then you can carry on the conversation
 
 You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This allows you to edit the conversation history, for example to rerun responses to obtain a sample of several different answers.
 
-The API is stateless - the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation. Although LLMs are pretty wise to this, and in my experience will tell you off if you try to make them think they've said naughty things.
+The API is stateless - the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation. Although LLMs are pretty wise to this, and in my experience will tell you off if you try to make them think they've said outrageous things.
 
 ### Models
 
