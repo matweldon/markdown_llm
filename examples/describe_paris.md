@@ -1,6 +1,6 @@
 # %User
 
-Give me a single sentence of no more than seven words that describes Basingstoke. Just the answer.
+Give me a single sentence of no more than seven words that describes Paris. Just the answer.
 <!--llm
 
 # %Assistant
@@ -12,7 +12,3 @@ Romantic city of lights, art, and cuisine.
 
 Iconic city of lights, love, and culture.
 llm-->
-
-# %Assistant
-
-Historic market town in Hampshire, England.

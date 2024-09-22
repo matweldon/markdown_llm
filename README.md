@@ -33,13 +33,7 @@ git clone https://github.com/matweldon/llm_tool.git
 cd llm_tool
 ```
 
-3. Install the required dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-or install as a package using `pyproject.toml`
+3. Install as a package
 
 ```bash
 pip install .
@@ -47,7 +41,7 @@ pip install .
 
 or you should be able to just install from git but I haven't tried it.
 
-4. Get an Anthropic API key and follow the instructions on Simon Willison's GitHub page to set it up. I think you probably also need to set up an alias called 'sonnet' for the package to work. No apologies - I told you this is work-in-progress.
+4. Get an Anthropic API key and add it to a `.env` file in the root directory. In the future the package will support other models but the Anthropic model is currently hard-coded.
 
 ## Usage
 

@@ -1,23 +1,16 @@
 ---
 model: sonnet
 system: Answer concisely.
+// This yaml is currently unused
 ---
-# %User
 
+# %User
 
 ![image1](cats.png)
 
-How many cats are in the image? Are there any black cats?
-
+How many dogs are in the image? What breeds of dog are they?
+<!--llm
 # %Assistant
 
-There are 3 cats in the image. None of them are black cats. The image shows three kittens sitting together outdoors. From left to right, there's a white and gray tabby, a light orange or cream-colored kitten in the middle, and a gray tabby on the right. They all appear to be sitting on a light-colored surface, possibly the roof of a car or a similar flat surface. The background shows a blue sky with some clouds and green foliage, suggesting they are in an outdoor setting.
-
-# %User
-
-Are any of the kittens looking directly at the camera?
-# %Assistant
-
-Yes, one of the kittens is looking directly at the camera. The kitten in the middle, which is the light orange or cream-colored one, is gazing straight ahead with its bright eyes focused on the camera. Its expression appears alert and curious.
-
-The other two kittens - the tabby on the left and the gray tabby on the right - have their heads tilted slightly upward and their eyes are not directly focused on the camera. The one on the left seems to be looking slightly off to the side, while the one on the right appears to have its eyes partially closed, giving it a sleepy or contented look.
+I apologize, but there are no dogs in this image. The picture shows three adorable kittens or young cats sitting together. They appear to be on a light-colored surface, possibly the roof of a car or a similar flat surface. The kittens are different colors - one looks like a tabby, one is a ginger or orange color, and one appears to be a mix of light and dark fur. The background shows a blue sky with some clouds and greenery, suggesting this is an outdoor setting. Cats and dogs are different species, so it's important to note that these are definitely feline, not canine, animals in the photograph.
+llm-->
