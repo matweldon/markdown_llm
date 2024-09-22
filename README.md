@@ -114,3 +114,7 @@ and then run the command. So far, I've only tested this with png files but it sh
 - Thanks to the creators of the LLM APIs, especially Anthropic, for making this project possible
 - Thanks to the creators of Obsidian for making me such a markdown addict
 - Inspired by the growing trend of AI-assisted writing and coding
+
+# Notes
+
+To test that the package works without the `llm` key management utilities, run `mv "$(llm keys path)" "$(llm keys path).bak"` and then try to run the package. It currently seems to work fine if you're installing and running the package in the same directory where your .env is stored, but not work in another directory.

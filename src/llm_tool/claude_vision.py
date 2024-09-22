@@ -1,8 +1,8 @@
 import anthropic
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from llm_tool.parser import add_image_data_to_conversation
 
-load_dotenv() # Loads ANTHROPIC_API_KEY from .env
+load_dotenv(find_dotenv()) # Loads ANTHROPIC_API_KEY from .env
 
 def claude_vision_conversation(parsed_file_contents,base_path):
 

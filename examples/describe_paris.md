@@ -12,3 +12,7 @@ Romantic city of lights, art, and cuisine.
 
 Iconic city of lights, love, and culture.
 llm-->
+
+# %Assistant
+
+Paris: romantic city of lights, art, and history.
