@@ -53,3 +53,4 @@ traitlets==5.14.3
 typing_extensions==4.12.2
 urllib3==2.2.2
 wcwidth==0.2.13
+python-dotenv>=1.0.0

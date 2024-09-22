@@ -1,10 +1,5 @@
-import os
-import sys
-import re
-import base64
 import anthropic
 from dotenv import load_dotenv
-from pathlib import Path
 from llm_tool.parser import add_image_data_to_conversation
 
 load_dotenv()

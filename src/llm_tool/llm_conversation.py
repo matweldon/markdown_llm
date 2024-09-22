@@ -1,7 +1,4 @@
 import llm
-import os
-import sys
-import re
 
 def chunk_user_assistant_turns(conversation):
     result = []
@@ -37,7 +34,7 @@ def llm_conversation(parsed_file_contents):
 
     chunked_conversation = chunk_user_assistant_turns(parsed_file_contents['conversation'])
     
-    model = llm.get_model('sonnet')
+    model = llm.get_model('claude-3-5-sonnet-20240620')
     conversation = model.conversation()
 
     if 'assistant' not in chunked_conversation[-1].keys():
