@@ -39,9 +39,19 @@ cd llm_tool
 pip install .
 ```
 
-or you should be able to just install from git but I haven't tried it.
+4. Set the API key (see below).
 
-4. Get an Anthropic API key and add it to a `.env` file in the root directory. In the future the package will support other models but the Anthropic model is currently hard-coded.
+
+## API key management
+
+The `llm` package provides key management which can be used in this package for text models. To set the Anthropic key, enter:
+
+```bash
+llm keys set claude
+```
+and enter the key at the prompt. The package stores keys in a JSON file at a location that can be found with `llm keys path`.
+
+The vision model will work with an 'ANTHROPIC_API_KEY' in a `.env` file in the root of the directory where the package is used, or by setting the environment variable in the session. In the future the package will support other models but the Anthropic model is currently hard-coded.
 
 ## Usage
 
@@ -81,7 +91,7 @@ The API is stateless - the API call reconstructs the full conversation each time
 
 ### Models
 
-Currently, Anthropic Claude Sonnet 3.5 is hard-coded (referred to by an alias, 'sonnet'). But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does.
+Currently, Anthropic Claude Sonnet 3.5 is hard-coded. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does.
 
 ### Images
 
@@ -117,4 +127,4 @@ and then run the command. So far, I've only tested this with png files but it sh
 
 # Notes
 
-To test that the package works without the `llm` key management utilities, run `mv "$(llm keys path)" "$(llm keys path).bak"` and then try to run the package. It currently seems to work fine if you're installing and running the package in the same directory where your .env is stored, but not work in another directory.
+To test that the package works without the `llm` key management utilities, run `mv "$(llm keys path)" "$(llm keys path).bak"` and then try to run the package. Remember to change it back again after.

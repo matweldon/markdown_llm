@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llm-tool"
-version = "0.0.23"
+version = "0.0.25"
 authors = [
     {name = "Your Name", email = "your.email@example.com"},
 ]
@@ -29,3 +29,6 @@ dependencies = {file = ["requirements.in"]}
 #version = {attr = "llm_tool.__version__"}
 # For dynamic version, just add `__version__ = ****` to __init__.py, and add `dynamic = ["version",...]` above
 # and remove `version = ***` under [project] above
+
+[tool.setuptools]
+include-package-data = true

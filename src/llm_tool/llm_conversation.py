@@ -1,8 +1,6 @@
 import llm
 from dotenv import load_dotenv, find_dotenv
 
-print(find_dotenv())
-
 load_dotenv(find_dotenv()) # Loads any API key env variables set in .env
 
 def chunk_user_assistant_turns(conversation):
