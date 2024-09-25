@@ -51,7 +51,7 @@ llm keys set claude
 ```
 and enter the key at the prompt. The package stores keys in a JSON file at a location that can be found with `llm keys path`.
 
-The vision model will work with an 'ANTHROPIC_API_KEY' in a `.env` file in the root of the directory where the package is used, or by setting the environment variable in the session. In the future the package will support other models but the Anthropic model is currently hard-coded.
+The vision model will work with an 'ANTHROPIC_API_KEY' in a `.env` file in the root of the directory where the package is used, or by setting the environment variable in the session. In the future the package will support other APIs but the Anthropic API is currently hard-coded for vision models.
 
 ## Usage
 
@@ -95,7 +95,7 @@ The API is stateless - the API call reconstructs the full conversation each time
 
 Currently, the package has only been tested with Anthropic Claude Sonnet 3.5. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does. However, vision model use only supports Anthropic models.
 
-There are some usage examples in the [examples](examples/) folder.
+There are some usage examples in the [examples](examples/) folder. You'll see that I used this package quite heavily in writing the package.
 
 ### Configuration
 
