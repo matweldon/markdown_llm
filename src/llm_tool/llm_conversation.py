@@ -1,5 +1,6 @@
 import llm
 from dotenv import load_dotenv, find_dotenv
+from llm_tool import CONFIG
 
 load_dotenv(find_dotenv()) # Loads any API key env variables set in .env
 
@@ -30,28 +31,44 @@ def chunk_user_assistant_turns(conversation):
     return result
 
 
-def llm_conversation(parsed_file_contents):
+def llm_conversation(parsed_file_contents: dict,config: dict | None = None) -> str:
     # assert parsed_file_contents['metadata']['has_images'] == False,(
     #     "llm can't handle conversations with images"
     # )
 
     chunked_conversation = chunk_user_assistant_turns(parsed_file_contents['conversation'])
     
-    model = llm.get_model('claude-3-5-sonnet-20240620')
+    if not config:
+        config = dict()
+
+    model_name = config.get('model',CONFIG.get('model'))
+    system_msg = config.get('system',CONFIG.get('system'))
+    model_options = config.get('options',CONFIG.get('options'))
+
+    # print(f"Using model {model_name}.")
+    # print(f"Using system message:{system_msg}")
+
+    model = llm.get_model(model_name)
     conversation = model.conversation()
 
     if 'assistant' not in chunked_conversation[-1].keys():
         new_prompt = chunked_conversation.pop()
     
         conversation.responses += [
-            llm.Response.fake(prompt=turn['user'],
-            response=turn['assistant'],
-            model=model,
-            system="")
+            llm.Response.fake(
+                prompt=turn['user'],
+                response=turn['assistant'],
+                model=model,
+                system=system_msg,
+            )
             for turn in chunked_conversation
         ]
 
-        new_response = conversation.prompt(new_prompt['user'])
+        new_response = conversation.prompt(
+            new_prompt['user'],
+            system=system_msg,
+            **model_options,
+        )
         new_formatted_response = f"\n# %Assistant\n\n{new_response}"
     else:
         print('No new prompts.')

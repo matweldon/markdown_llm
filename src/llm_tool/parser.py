@@ -1,5 +1,6 @@
 import os
 import re
+import yaml
 import base64
 from dotenv import load_dotenv
 from pathlib import Path
@@ -38,6 +39,45 @@ def parse_conversation(file_contents):
     
     metadata = {'has_images':has_images}
     return {'conversation':conversation,'metadata':metadata}
+
+def parse_markdown_with_yaml(markdown_content) -> tuple[dict,str]:
+    """Remove YAML header from markdown document and return as dict.
+
+    If there is a YAML header, parse it and return it as a dict, and also
+    return the body of the markdown document.
+
+    Args:
+        markdown_content (str): The contents of the markdown doc as a string
+
+    Returns:
+        dict: Contents of the YAML header
+        str: Body of the markdown doc
+    """
+    # Regular expression to match the YAML header
+    yaml_pattern = re.compile(r'^---\s*\n(.*?)\n---\s*\n', re.DOTALL)
+    
+    # Find the YAML header
+    match = yaml_pattern.match(markdown_content)
+    
+    if match:
+        # Extract the YAML content
+        yaml_content = match.group(1)
+        
+        try:
+            # Parse the YAML content into a dictionary
+            yaml_dict = yaml.safe_load(yaml_content)
+            
+            # Get the body of the Markdown document
+            markdown_body = markdown_content[match.end():]
+            
+            print("Using YAML header options.")
+            return yaml_dict, markdown_body
+        except yaml.YAMLError as e:
+            print(f"Error parsing YAML: {e}")
+            return None, markdown_content
+    else:
+        return None, markdown_content
+
 
 def get_base64(filepath: str | os.PathLike):
     with open(filepath, 'rb') as f:

@@ -93,13 +93,37 @@ The API is stateless - the API call reconstructs the full conversation each time
 
 Currently, Anthropic Claude Sonnet 3.5 is hard-coded. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does.
 
+### Configuration
+
+You can set options for the conversation with a YAML header at the top of the markdown document. All of the options have defaults (which can be found in `__init__.py`) so just set the ones you want.
+
+When using text-only (not vision) models, you can specify the model using aliases set with `llm aliases set` from the llm package.
+
+```
+---
+model: sonnet # This is an alias 
+system: Only speak in French.
+options:
+  max_tokens: 1024
+  temperature: 0.0
+---
+
+# %User
+What is the capital of France?
+```
+
+Model options depend on the model type. For both OpenAI and Anthropic they include `temperature` and `max_tokens`. The options exposed through the llm package aren't very well documented so it's easiest to just look at the source code:
+
+[Claude model options](https://github.com/simonw/llm-claude-3/blob/18d562a730643753ee0d65c7220deac2e9cde689/llm_claude_3.py#L18)
+
+[OpenAI model options](https://github.com/simonw/llm/blob/d654c9521235a737e59a4f1d77cf4682589123ec/llm/default_plugins/openai_models.py#L163)
+
+
 ### Images
 
-The tool supports vision models -- currently only Anthropic Claude Sonnet 3.5.
+The tool supports vision models - currently only Anthropic. To add an image to the chat, add a markdown link to the relative path of the image:
 
-To add an image to the chat, add a markdown link to the relative path of the image:
-
-> \# %User
+> # %User
 >
 > \!\[image1\]\(data/cats.png\)
 >
@@ -107,14 +131,12 @@ To add an image to the chat, add a markdown link to the relative path of the ima
 
 and then run the command. So far, I've only tested this with png files but it should also work with JPEG.
 
+Image markdown supports the same options, but aliases are not supported because the package calls the Anthropic API directly rather than using `llm`.
+
 ## To do
 
-* Add configuration options to change the model, system prompt, temperature etc
-  - YAML header in markdown (I think this will be most useful)
-  - config.toml
-  - command line options
+* Tidy up and improve config setting.
 * Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt
-* Make it easier to deploy the package in other projects
 * Make it easier to install without having to use Simon W's API interface
 * Parse links to websites, strip tags and inline the text
 
