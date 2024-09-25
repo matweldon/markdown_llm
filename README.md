@@ -95,6 +95,8 @@ The API is stateless - the API call reconstructs the full conversation each time
 
 Currently, the package has only been tested with Anthropic Claude Sonnet 3.5. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does. However, vision model use only supports Anthropic models.
 
+There are some usage examples in the [examples](examples/) folder.
+
 ### Configuration
 
 You can optionally set model, system message and other options for the conversation with a YAML header at the top of the markdown document.
