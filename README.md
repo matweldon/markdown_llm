@@ -57,9 +57,11 @@ The vision model will work with an 'ANTHROPIC_API_KEY' in a `.env` file in the r
 
 Open your markdown file, and add the following syntax where you want to start a chat:
 
-> \# %User
->
-> Write the prompt here...
+```
+# %User
+
+Write the prompt here...
+```
 
 Run the script:
    
@@ -67,23 +69,23 @@ Run the script:
 
 The LLM's response will be inserted directly into your markdown file.
 
-> \# %User
-> 
-> What is President Reagan's first name? Just give me the answer.
->
-> \# %Assistant
->
-> Ronald
+```
+# %User
+What is President Reagan's first name? Just give me the answer.
+
+# %Assistant
+Ronald
+```
 
 Then you can carry on the conversation
 
-> \# %User
-> 
-> What about Thatcher?
->
-> \# %Assistant
->
-> Margaret
+```
+# %User
+What about Thatcher?
+
+# %Assistant
+Margaret
+```
 
 You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This allows you to edit the conversation history, for example to rerun responses to obtain a sample of several different answers.
 
@@ -95,7 +97,7 @@ Currently, Anthropic Claude Sonnet 3.5 is hard-coded. But using the Python SDK o
 
 ### Configuration
 
-You can set options for the conversation with a YAML header at the top of the markdown document. All of the options have defaults (which can be found in `__init__.py`) so just set the ones you want.
+You can optionally set model, system message and other options for the conversation with a YAML header at the top of the markdown document.
 
 When using text-only (not vision) models, you can specify the model using aliases set with `llm aliases set` from the llm package.
 
@@ -123,11 +125,12 @@ Model options depend on the model type. For both OpenAI and Anthropic they inclu
 
 The tool supports vision models - currently only Anthropic. To add an image to the chat, add a markdown link to the relative path of the image:
 
-> # %User
->
-> \!\[image1\]\(data/cats.png\)
->
-> How many cats are in the image? Are there any black cats?
+```
+# %User
+
+![image1](data/cats.png)
+How many cats are in the image? Are there any black cats?
+```
 
 and then run the command. So far, I've only tested this with png files but it should also work with JPEG.
 
