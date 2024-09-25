@@ -93,7 +93,7 @@ The API is stateless - the API call reconstructs the full conversation each time
 
 ### Models
 
-Currently, Anthropic Claude Sonnet 3.5 is hard-coded. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does.
+Currently, the package has only been tested with Anthropic Claude Sonnet 3.5. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does. However, vision model use only supports Anthropic models.
 
 ### Configuration
 
@@ -103,7 +103,7 @@ When using text-only (not vision) models, you can specify the model using aliase
 
 ```
 ---
-model: sonnet # This is an alias 
+model: sonnet 
 system: Only speak in French.
 options:
   max_tokens: 1024
