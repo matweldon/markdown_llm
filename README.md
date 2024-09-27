@@ -41,6 +41,8 @@ pip install .
 
 4. Set the API key (see below).
 
+5. (Optional) ensure you have the `code` command in your PATH.
+
 
 ## API key management
 
@@ -64,8 +66,10 @@ Write the prompt here...
 ```
 
 Run the script:
-   
-   `python -m llm_tool your_file.md`
+  
+```bash
+llmd your_file.md
+```
 
 The LLM's response will be inserted directly into your markdown file.
 
@@ -86,6 +90,11 @@ What about Thatcher?
 # %Assistant
 Margaret
 ```
+
+> [!TIP]
+> If you have the `code` command configured in your PATH, you can
+> create a new file with `llmd new_file.md` and start typing the prompt.
+> Then run the command again to get the response.
 
 You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This allows you to edit the conversation history, for example to rerun responses to obtain a sample of several different answers.
 

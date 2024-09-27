@@ -20,6 +20,9 @@ classifiers = [
 ]
 dynamic = ["dependencies"]
 
+[project.scripts]
+llmd = "llm_tool.__main__:main"
+
 [project.urls]
 "Homepage" = "https://github.com/yourusername/llm-tool"
 "Bug Tracker" = "https://github.com/yourusername/llm-tool/issues"
