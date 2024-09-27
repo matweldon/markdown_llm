@@ -8,7 +8,9 @@ CONFIG = {
 }
 
 # Set the command to open the text editor
-# The filepath will be appended to the end of this command
-# This will currently only work for the code command
-# because of the line number (see __main__.py)
-EDITOR = 'code -r -g'
+# Either:
+# A template string including {markdown_filepath}
+#   the filepath will be inserted in the template
+# A bare string
+#   the filepath will be added to the end
+EDITOR = "code -r -g {markdown_filepath}:3" # Open at line 3

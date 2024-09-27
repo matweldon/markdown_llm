@@ -21,32 +21,28 @@ This project is a very early work-in-progress. Use only if you're willing to tro
 
 ## Installation
 
-1. Clone the repository:
+1. Install from git:
+
+```bash
+pip install git+https://github.com/matweldon/markdown_llm.git
+```
+
+OR, clone and install as editable for development:
 
 ```bash   
-git clone https://github.com/matweldon/llm_tool.git
+git clone https://github.com/matweldon/markdown_llm.git
+cd markdown_llm
+pip install -e .
 ```
 
-2. Navigate to the project directory:
+2. Set the API key (see below).
 
-```bash
-cd llm_tool
-```
-
-3. Install as a package
-
-```bash
-pip install .
-```
-
-4. Set the API key (see below).
-
-5. (Optional) ensure you have the `code` command in your PATH.
+3. (Optional) ensure you have the `code` command in your PATH, or edit the `EDITOR` option in `__init__.py` to open the text editor of your choice.
 
 
 ## API key management
 
-The `llm` package provides key management which can be used in this package for text models. To set the Anthropic key, enter:
+Simon Willison's `llm` package provides key management which can be used in this package for text models. To set the Anthropic key, enter:
 
 ```bash
 llm keys set claude
@@ -92,7 +88,7 @@ Margaret
 ```
 
 > [!TIP]
-> If you have the `code` command configured in your PATH, you can
+> If you have configured a text editor command (default `code`), you can
 > create a new file with `llmd new_file.md` and start typing the prompt.
 > Then run the command again to get the response.
 

@@ -3,6 +3,7 @@ from llm_tool.llm_conversation import llm_conversation
 from llm_tool.claude_vision import claude_vision_conversation
 from llm_tool import EDITOR
 import os
+import re
 import sys
 import string
 import subprocess
@@ -22,9 +23,18 @@ def main(markdown_filepath=None):
     if path_type == 'new':
         with open(markdown_filepath,'x') as f:
             f.write("# %User\n")
-        # Open EDITOR at line 3
-        commandlist = EDITOR.split() + [f"{markdown_filepath}:3"]
-        subprocess.run(commandlist)
+        # Open EDITOR at line 2
+        editor_command_list = make_editor_command(markdown_filepath,EDITOR)
+        subprocess.run(editor_command_list)
+
+
+def make_editor_command(filepath,editor_command):
+    if re.search(r'{markdown_filepath}',editor_command):
+        full_editor_command = editor_command.format(markdown_filepath=filepath)
+        editor_command_list = full_editor_command.split()
+    else:
+        editor_command_list = editor_command.split() + [filepath]
+    return editor_command_list
 
 
 def read_and_write_response(validated_filepath):
