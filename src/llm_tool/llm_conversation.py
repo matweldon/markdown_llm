@@ -1,6 +1,6 @@
 import llm
 from dotenv import load_dotenv, find_dotenv
-from llm_tool import CONFIG
+from llm_tool.config_and_system import get_config
 
 load_dotenv(find_dotenv()) # Loads any API key env variables set in .env
 
@@ -37,13 +37,8 @@ def llm_conversation(parsed_file_contents: dict,config: dict | None = None) -> s
     # )
 
     chunked_conversation = chunk_user_assistant_turns(parsed_file_contents['conversation'])
-    
-    if not config:
-        config = dict()
 
-    model_name = config.get('model',CONFIG.get('model'))
-    system_msg = config.get('system',CONFIG.get('system'))
-    model_options = config.get('options',CONFIG.get('options'))
+    model_name, system_msg, model_options = get_config(config)
 
     # print(f"Using model {model_name}.")
     # print(f"Using system message:{system_msg}")

@@ -94,15 +94,31 @@ Margaret
 
 You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This allows you to edit the conversation history, for example to rerun responses to obtain a sample of several different answers.
 
-The API is stateless - the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation. Although LLMs are pretty wise to this, and in my experience will tell you off if you try to make them think they've said outrageous things.
+The API is stateless - the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation.
 
 ### Models
 
-Currently, the package has only been tested with Anthropic Claude Sonnet 3.5. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does. However, vision model use only supports Anthropic models.
+Currently, the package has only been tested with Anthropic Claude Sonnet 3.5. But using the Python SDK of the `llm` package means that in principle this supports any models Simon Willison's package does. This includes OpenAI models and local open-source models. However, vision model use only supports Anthropic models.
 
 There are some usage examples in the [examples](examples/) folder. You'll see that I used this package quite heavily in writing the package.
 
-### Configuration
+### Images
+
+The tool supports vision models - currently only Anthropic. To add an image to the chat, add a markdown link to the relative path of the image:
+
+```
+# %User
+
+![image1](data/cats.png)
+How many cats are in the image? Are there any black cats?
+```
+
+and then run the command. So far, I've only tested this with png files but it should also work with JPEG.
+
+Image markdown supports the same options, but aliases are not supported because the package calls the Anthropic API directly rather than using `llm`.
+
+
+## Configuration
 
 You can optionally set model, system message and other options for the conversation with a YAML header at the top of the markdown document.
 
@@ -127,21 +143,14 @@ Model options depend on the model type. For both OpenAI and Anthropic they inclu
 
 [OpenAI model options](https://github.com/simonw/llm/blob/d654c9521235a737e59a4f1d77cf4682589123ec/llm/default_plugins/openai_models.py#L163)
 
+### System message templates and snippets
 
-### Images
+The package has a templated system message capability. All config is currently stored in the `__init__.py` file until I implement something better.
 
-The tool supports vision models - currently only Anthropic. To add an image to the chat, add a markdown link to the relative path of the image:
+System messages can be added to the YAML header. They can make use of reusable snippets from the `CONFIG` dictionary. Any entry in the CONFIG dictionary with a prefix of `sys_` is a system message snippet and is available to be used in templated system messages.
 
-```
-# %User
+For example, I have added a bulleted list of python preferences to the CONFIG dictionary as `sys_python_prefs`. This can then be used in the YAML header by adding a templated system message (see [templated_system_msg.md](examples/templated_system_msg.md)).
 
-![image1](data/cats.png)
-How many cats are in the image? Are there any black cats?
-```
-
-and then run the command. So far, I've only tested this with png files but it should also work with JPEG.
-
-Image markdown supports the same options, but aliases are not supported because the package calls the Anthropic API directly rather than using `llm`.
 
 ## To do
 

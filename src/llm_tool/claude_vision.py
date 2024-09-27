@@ -1,6 +1,7 @@
 import anthropic
 from dotenv import load_dotenv, find_dotenv
 from llm_tool.parser import add_image_data_to_conversation
+from llm_tool.config_and_system import get_config
 from llm_tool import CONFIG
 
 load_dotenv(find_dotenv()) # Loads ANTHROPIC_API_KEY from .env
@@ -11,12 +12,7 @@ def claude_vision_conversation(
     config: dict | None = None,
     ) -> str:
 
-    if not config:
-        config = dict()
-
-    model_name = config.get('model',CONFIG.get('model'))
-    system_msg = config.get('system',CONFIG.get('system'))
-    model_options = config.get('options',CONFIG.get('options'))
+    model_name, system_msg, model_options = get_config(config)
 
     client = anthropic.Anthropic()
 

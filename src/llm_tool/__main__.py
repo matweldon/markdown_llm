@@ -8,6 +8,17 @@ import sys
 import string
 import subprocess
 
+md_header = """---
+model: claude-3-5-sonnet-20240620
+system: '{sys_python_prefs}'
+options:
+  max_tokens: 4096
+---
+
+# %User
+
+"""
+
 def main(markdown_filepath=None):
 
     if markdown_filepath is None:
@@ -22,7 +33,7 @@ def main(markdown_filepath=None):
     
     if path_type == 'new':
         with open(markdown_filepath,'x') as f:
-            f.write("# %User\n")
+            f.write(md_header)
         # Open EDITOR at line 2
         editor_command_list = make_editor_command(markdown_filepath,EDITOR)
         subprocess.run(editor_command_list)
