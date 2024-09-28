@@ -14,10 +14,10 @@ CONFIG = {
     * For type hints, don't use Union. Use the newer | syntax
     In answers adhere to these preferences but no need to refer back to them.
 
-    Answers should be short. If I've asked you to solve a problem, 
+    Answers should be no longer than they need to be. If I've asked you to solve a problem, 
     don't give long explanations for your decisions. If I need explanations I'll ask for them.
 
-    If I've asked you for options or explanation you can provide them but be succinct.
+    If I've asked you for options you can give reasons them but be succinct.
     """
 }
 
@@ -27,5 +27,5 @@ CONFIG = {
 #   the filepath will be inserted in the template
 # A bare string
 #   the filepath will be added to the end
-EDITOR = "code -r -g {markdown_filepath}:100" # Open at last line
-# EDITOR = "vim +100"
+EDITOR = "code -r -g {markdown_filepath}:99999" # Open at last line
+# EDITOR = "vim +99999"

@@ -12,10 +12,11 @@ This command line tool extends Simon Willison's amazing [llm](https://github.com
 Why would you want to use this instead of `llm chat`?
 
 * It's easier to save conversations to version control and/or Obsidian
-* Text editing and navigation are limited in the terminal
+* Using your favourite text editor is easier than the terminal
 * Working in a markdown document, you get nice syntax highlighting when the LLM writes fenced code blocks
-* You can comment out parts of the conversation history and rerun them (see below)
+* You can comment out parts of the conversation history (see below)
 * This tool has support for markdown links to images. Hyperlinks to other documents and websites to follow.
+* It opens up possibilities for experimentation - by editing the chat history you can see how different models with different settings would answer the same question, and even get models conversing with each other.
 
 This project is a very early work-in-progress. Use only if you're willing to troubleshoot.
 
@@ -87,14 +88,27 @@ What about Thatcher?
 Margaret
 ```
 
-> [!TIP]
-> If you have configured a text editor command (default `code`), you can
-> create a new file with `llmd new_file.md` and start typing the prompt.
-> Then run the command again to get the response.
-
 You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This allows you to edit the conversation history, for example to rerun responses to obtain a sample of several different answers.
 
 The API is stateless - the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation.
+
+### Text editor integration
+
+You don't have to start with an open text editor. You can create a new file with `llmd new_file.md` and start typing the prompt. Then run the command again to get the response. You just need to ensure the `code` command (for VS Code) is in your PATH. Or you can change the default 'open editor' command in `__init__.py` to work with other editors.
+
+Once you've written a prompt, setting up a keyboard shortcut in your editor saves time moving back and forth between the editor and the terminal. To set up a keyboard shortcut in VS Code, open `keybindings.json` from the Command palette and add this entry:
+
+```json
+    {
+        "key": "cmd+ctrl+r",// Or whatever you prefer
+        "command":"workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "llmd ${file}\n"
+        },
+        "when": "editorTextFocus && editorLangId == markdown",
+    }
+```
+
 
 ### Models
 
