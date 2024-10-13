@@ -2,7 +2,7 @@ import pytest
 import tempfile
 import yaml
 from pathlib import Path
-from llm_tool.load_config import load_config_or_empty
+from llm_tool.config_and_system import load_config_or_empty
 """
 For this function, you should test the following properties:
 

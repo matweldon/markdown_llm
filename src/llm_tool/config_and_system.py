@@ -1,4 +1,8 @@
 from collections.abc import Iterable
+import yaml
+from pathlib import Path
+import os
+from platformdirs import user_config_dir
 
 def merge_configs(configs: Iterable[dict]):
     """Create config dict from list of configs.
@@ -60,3 +64,56 @@ def get_config(configs: Iterable[dict]):
     system_msg = template_system_msg.format_map(sys_snippets)
 
     return model_name, system_msg, model_options
+
+
+def get_or_make_user_config_path() -> None:
+    """Prints user config path
+
+    If the folder doesn't exist it is created.
+
+    Use the command llmd-config-path to run this module.
+
+    For example, to copy a local yaml to the user config dir,
+    run:
+    > cp llmd_config.yaml "$(llmd-config-path)"
+    """
+    config_dir = os.getenv("llmd_config_dir",user_config_dir("llmd"))
+    config_dir = Path(config_dir)
+    config_dir.mkdir(parents=True, exist_ok=True)
+    
+    config_path = config_dir / "config.yaml"
+    print(config_path)
+
+def load_config_or_empty(path: str, filename: str) -> dict:
+    """
+    Load a YAML file into a dict if it exists, otherwise return an empty dict.
+
+    Parameters
+    ----------
+    path : str
+        The directory path where the YAML file is located.
+    filename : str
+        The name of the YAML file.
+
+    Returns
+    -------
+    dict
+        The loaded YAML content as a dict, or an empty dict if the file doesn't exist.
+
+    Examples
+    --------
+    >>> load_config_or_empty("/path/to/dir", "config.yaml")
+    {'key': 'value'}
+    >>> load_config_or_empty("/path/to/nonexistent", "missing.yaml")
+    {}
+    """
+    file_path = Path(path) / filename
+
+    if file_path.is_file() and file_path.suffix in {'.yaml', '.yml'}:
+        with file_path.open('r') as f:
+            config = yaml.safe_load(f)
+    else:
+        config = dict()
+    if not isinstance(config,dict):
+        config = dict()
+    return config

@@ -1,6 +1,6 @@
 import os
 from platformdirs import user_config_dir
-from llm_tool.load_config import load_config_or_empty
+from llm_tool.config_and_system import load_config_or_empty
 
 llmd_config_dir = os.getenv("llmd_config_dir",user_config_dir(appname="llmd"))
 
@@ -23,7 +23,7 @@ DEFAULT_CONFIG = {
     Answers should be no longer than they need to be. If I've asked you to solve a problem, 
     don't give long explanations for your decisions. If I need explanations I'll ask for them.
 
-    If I've asked you for options you can give reasons them but be succinct.
+    If I've asked you for options you can give reasons but be succinct.
     """,
     "editor_cmd": "code -r -g {markdown_filepath}:99999",
     #"editor_cmd": "vim +99999 {markdown_filepath}",

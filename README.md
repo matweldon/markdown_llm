@@ -157,6 +157,10 @@ Model options depend on the model type. For both OpenAI and Anthropic they inclu
 
 [OpenAI model options](https://github.com/simonw/llm/blob/d654c9521235a737e59a4f1d77cf4682589123ec/llm/default_plugins/openai_models.py#L163)
 
+Other configuration options include USER and PROJECT config yaml files. The USER yaml file is located in the OS's preferred location for user configs. You can print the location with `llmd-config-path`. The PROJECT config yaml is a file named 'llmd_config.yaml' located in the current working directory. The order of priority of config settings is: file header > PROJECT > USER > DEFAULT (defined in `__init__.py`).
+
+The repo contains an example 'llmd_config.yaml'. The easiest way to create a new USER config is `cp llmd_config.yaml "$(llmd-config-path)"`. This can be edited with `code "$(llmd-config-path)"`.
+
 ### System message templates and snippets
 
 The package has a templated system message capability. All config is currently stored in the `__init__.py` file until I implement something better.
