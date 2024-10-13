@@ -38,7 +38,7 @@ pip install -e .
 
 2. Set the API key (see below).
 
-3. (Optional) ensure you have the `code` command in your PATH, or edit the `EDITOR` option in `__init__.py` to open the text editor of your choice.
+3. (Optional) ensure you have the `code` command in your PATH, or edit the `editor_cmd` option in config (see below) to open the text editor of your choice.
 
 
 ## API key management
@@ -94,7 +94,7 @@ The API is stateless - the API call reconstructs the full conversation each time
 
 ### Text editor integration
 
-You don't have to start with an open text editor. You can create a new file with `llmd new_file.md` and start typing the prompt. Then run the command again to get the response. You just need to ensure the `code` command (for VS Code) is in your PATH. Or you can change the default 'open editor' command in `__init__.py` to work with other editors.
+You don't have to start with an open text editor. You can create a new file with `llmd new_file.md` and start typing the prompt. Then run the command again to get the response. You just need to ensure the `code` command (for VS Code) is in your PATH. To use other text editors, set the 'editor_cmd' option in a USER or PROJECT config yaml (see below).
 
 Once you've written a prompt, setting up a keyboard shortcut in your editor saves time moving back and forth between the editor and the terminal. To set up a keyboard shortcut in VS Code, open `keybindings.json` from the Command palette and add this entry (substituting your preferred key combination):
 
@@ -163,16 +163,13 @@ The repo contains an example 'llmd_config.yaml'. The easiest way to create a new
 
 ### System message templates and snippets
 
-The package has a templated system message capability. All config is currently stored in the `__init__.py` file until I implement something better.
+The package has a templated system message capability. System messages defined in the YAML header, or in the config files, can make use of reusable snippets which are also stored in configs. Any entry in a config YAML with a prefix of `sys_` is a system message snippet and is available to be used in templated system messages.
 
-System messages can be added to the YAML header. They can make use of reusable snippets from the `CONFIG` dictionary. Any entry in the CONFIG dictionary with a prefix of `sys_` is a system message snippet and is available to be used in templated system messages.
-
-For example, I have added a bulleted list of python preferences to the CONFIG dictionary as `sys_python_prefs`. This can then be used in the YAML header by adding a templated system message (see [templated_system_msg.md](examples/templated_system_msg.md)).
+For example, I have added a list of my python preferences to the DEFAULT_CONFIG dictionary (defined in '__init__.py') as `sys_python_prefs`. This can then be used in the YAML header by adding a templated system message (see [templated_system_msg.md](examples/templated_system_msg.md)).
 
 
 ## To do
 
-* Tidy up and improve config setting.
 * Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt
 * Make it easier to install without having to use Simon W's API interface
 * Parse links to websites, strip tags and inline the text
