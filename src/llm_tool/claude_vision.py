@@ -1,6 +1,6 @@
 import anthropic
 from dotenv import load_dotenv, find_dotenv
-from llm_tool.parser import add_image_data_to_conversation
+from llm_tool.image_handlers import add_image_data_to_conversation
 from llm_tool.config_and_system import get_config
 from llm_tool import CONFIG
 

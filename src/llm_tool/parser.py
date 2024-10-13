@@ -1,15 +1,24 @@
-import os
 import re
 import yaml
-import base64
-from dotenv import load_dotenv
-from pathlib import Path
 
-def remove_ignored_text(file_contents,pattern=r'<!--llm.*?llm-->'):
+
+def remove_commented_text(file_contents,pattern=r'<!--llm.*?llm-->'):
+    """Remove commented text from a string"""
     return re.sub(pattern,'',file_contents,flags=re.DOTALL)
 
 def parse_conversation(file_contents):
-    pruned_file_contents = remove_ignored_text(file_contents)
+    """Parse a conversation into user and assistant turns
+
+    Args:
+        file_contents (str): The contents of the markdown file after removal
+           of the YAML header.
+
+    Returns:
+        dict: A dictionary with two slots: conversation and metadata.
+        The conversation is a list of turns, where turns have either a role of
+         'User' or 'Assistant', with content.
+    """
+    pruned_file_contents = remove_commented_text(file_contents)
 
     pattern = r'# %(User|Assistant)\n(.*?)(?=# %User|# %Assistant|$)'
     pattern_image = r'!\[.*?\]\((.*?)\)'
@@ -78,34 +87,3 @@ def parse_markdown_with_yaml(markdown_content) -> tuple[dict,str]:
     else:
         return None, markdown_content
 
-
-def get_base64(filepath: str | os.PathLike):
-    with open(filepath, 'rb') as f:
-        img_bin = f.read()
-    img_base64 = base64.b64encode(img_bin).decode('utf-8')
-    return img_base64
-
-def rehydrate_image(rel_path,base_path):
-    """Convert rel_path into full base64-encoded image
-
-    Args:
-        rel_path (str): A relative path to an image file
-        base_path (str): An absolute path from which the rel path is relative
-    """
-    absolute_path = os.path.join(base_path,rel_path)
-    mtype = Path(rel_path).suffix[1:]
-    if mtype == 'jpg':
-        mtype = 'jpeg'
-    return {
-            "type": "base64",
-            "media_type": f"image/{mtype}",
-            "data": get_base64(absolute_path)
-        }
-
-def add_image_data_to_conversation(conversation,base_path):
-    for turn in conversation:
-        if turn['role'] == 'user':
-            for chunk in turn['content']:
-                if chunk['type'] == 'image':
-                    chunk['source'] = rehydrate_image(chunk['source'],base_path)
-    return conversation
