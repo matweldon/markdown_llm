@@ -24,7 +24,7 @@ def claude_vision_conversation(
     message = client.messages.create(
         model=model_name,
         system=system_msg,
-        max_tokens=model_options.pop('max_tokens',1024),
+        max_tokens=model_options.pop('max_tokens',4096),
         messages= rehydrated_conversation,
         **model_options
     )
