@@ -96,11 +96,11 @@ The API is stateless - the API call reconstructs the full conversation each time
 
 You don't have to start with an open text editor. You can create a new file with `llmd new_file.md` and start typing the prompt. Then run the command again to get the response. You just need to ensure the `code` command (for VS Code) is in your PATH. Or you can change the default 'open editor' command in `__init__.py` to work with other editors.
 
-Once you've written a prompt, setting up a keyboard shortcut in your editor saves time moving back and forth between the editor and the terminal. To set up a keyboard shortcut in VS Code, open `keybindings.json` from the Command palette and add this entry:
+Once you've written a prompt, setting up a keyboard shortcut in your editor saves time moving back and forth between the editor and the terminal. To set up a keyboard shortcut in VS Code, open `keybindings.json` from the Command palette and add this entry (substituting your preferred key combination):
 
 ```json
     {
-        "key": "cmd+ctrl+r",// Or whatever you prefer
+        "key": "cmd+ctrl+r",
         "command":"workbench.action.terminal.sendSequence",
         "args": {
             "text": "llmd ${file}\n"

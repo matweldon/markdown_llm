@@ -1,6 +1,20 @@
 from llm_tool import CONFIG
 
-def get_config(config = None):
+def get_config(config: dict | None = None):
+    """Get config from the YAML header or file.
+
+    This function processes the config from the YAML header, using
+    the default configs, and reconstitutes a system message.
+
+    Args:
+        config (dict, optional): A dict containing the model name,
+        templated system message and other options. Defaults to None.
+
+    Returns:
+        Tuple[str,str,dict]: A tuple containing the model name,
+        the reconstituted system message including snippets,
+        and a dictionary containing remaining options
+    """
     if config == None:
         config = dict()
     
