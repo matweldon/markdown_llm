@@ -1,10 +1,12 @@
 from llm_tool.parser import parse_conversation, parse_markdown_with_yaml
 from llm_tool.llm_conversation import llm_conversation
 from llm_tool.claude_vision import claude_vision_conversation
+from llm_tool.paths import validate_file_path
 from llm_tool import EDITOR
 import os
 import re
 import sys
+from pathlib import Path
 import string
 import subprocess
 
@@ -71,29 +73,6 @@ def read_and_write_response(validated_filepath):
     with open(validated_filepath,'a') as file:
         file.write('\n' + str(response))
 
-def validate_file_path(path):
-
-    # Split the path into directory and filename
-    directory, filename = os.path.split(path)
-    
-    # Check if the directory exists
-    if not os.path.exists(directory):
-        raise ValueError("Directory does not exist")
-    
-    # Check if we have write permission in the directory
-    if not os.access(directory, os.W_OK):
-        raise ValueError("No write permission in the directory")
-    
-    # Check if the filename is valid
-    valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
-    if not all(c in valid_chars for c in filename):
-        raise ValueError("Invalid characters in filename")
-    
-    # Check if the file already exists
-    if os.path.exists(path) and os.path.isfile(path):
-        return "exists"
-    
-    return "new"
 
 if __name__ == '__main__':
     sys.exit(main())
