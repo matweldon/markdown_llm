@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "llmd"
 version = "0.0.25"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "Mat Weldon", email = "nope@nope.com"},
 ]
 description = "A tool for working with Large Language Models"
 readme = "README.md"
@@ -22,6 +22,7 @@ dynamic = ["dependencies"]
 
 [project.scripts]
 llmd = "llm_tool.__main__:main"
+llmd-config-setup = "llmd.load_config:create_config"
 
 [project.urls]
 "Homepage" = "https://github.com/matweldon/markdown_llm"

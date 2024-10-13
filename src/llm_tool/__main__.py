@@ -2,24 +2,33 @@ from llm_tool.parser import parse_conversation, parse_markdown_with_yaml
 from llm_tool.llm_conversation import llm_conversation
 from llm_tool.claude_vision import claude_vision_conversation
 from llm_tool.paths import validate_file_path
-from llm_tool import EDITOR
+from llm_tool import DEFAULT_CONFIG, USER_CONFIG, PROJECT_CONFIG
+from llm_tool.config_and_system import get_config, merge_configs
 import os
 import re
 import sys
-from pathlib import Path
-import string
 import subprocess
+from datetime import date
 
 md_header = """---
 model: claude-3-5-sonnet-20240620
 system: '{sys_python_prefs}'
+date: {todays_date}
 options:
   max_tokens: 4096
 ---
 
 # %User
 
-"""
+""".format(
+    sys_python_prefs="{sys_python_prefs}",
+    todays_date=date.today().strftime("%d %B %Y"),
+)
+
+EDITOR = (
+    merge_configs([DEFAULT_CONFIG,USER_CONFIG,PROJECT_CONFIG])
+    .get('editor_cmd')
+    )
 
 def main(markdown_filepath=None):
 
@@ -57,8 +66,17 @@ def read_and_write_response(validated_filepath):
     with open(validated_filepath, 'r') as file:
         content = file.read()
 
-    config, content_body = parse_markdown_with_yaml(content)
+    file_config, content_body = parse_markdown_with_yaml(content)
     parsed_file_contents = parse_conversation(content_body)
+
+    config = get_config(
+            [
+                DEFAULT_CONFIG,
+                USER_CONFIG,
+                PROJECT_CONFIG,
+                file_config,
+            ]
+        )
 
     if parsed_file_contents['metadata']['has_images']:
         print('Handling images by using Anthropic API')

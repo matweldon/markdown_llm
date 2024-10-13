@@ -1,6 +1,5 @@
 import llm
 from dotenv import load_dotenv, find_dotenv
-from llm_tool.config_and_system import get_config
 
 load_dotenv(find_dotenv()) # Loads any API key env variables set in .env
 
@@ -31,14 +30,14 @@ def chunk_user_assistant_turns(conversation):
     return result
 
 
-def llm_conversation(parsed_file_contents: dict,config: dict | None = None) -> str:
+def llm_conversation(parsed_file_contents: dict,config: dict) -> str:
     # assert parsed_file_contents['metadata']['has_images'] == False,(
     #     "llm can't handle conversations with images"
     # )
 
     chunked_conversation = chunk_user_assistant_turns(parsed_file_contents['conversation'])
 
-    model_name, system_msg, model_options = get_config(config)
+    model_name, system_msg, model_options = config
 
     # print(f"Using model {model_name}.")
     # print(f"Using system message:{system_msg}")

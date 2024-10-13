@@ -54,12 +54,14 @@ def parse_markdown_with_yaml(markdown_content) -> tuple[dict,str]:
 
     If there is a YAML header, parse it and return it as a dict, and also
     return the body of the markdown document.
+    If there is no YAML header, it returns an empty dict and the body of
+    the markdown document.
 
     Args:
         markdown_content (str): The contents of the markdown doc as a string
 
     Returns:
-        dict: Contents of the YAML header
+        dict: Contents of the YAML header, or empty dict
         str: Body of the markdown doc
     """
     # Regular expression to match the YAML header
@@ -83,7 +85,7 @@ def parse_markdown_with_yaml(markdown_content) -> tuple[dict,str]:
             return yaml_dict, markdown_body
         except yaml.YAMLError as e:
             print(f"Error parsing YAML: {e}")
-            return None, markdown_content
+            return dict(), markdown_content
     else:
-        return None, markdown_content
+        return dict(), markdown_content
 

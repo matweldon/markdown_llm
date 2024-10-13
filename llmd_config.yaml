@@ -1,7 +1,7 @@
 # Configs have the following precedence:
 #   The default config is in __init__.py
-#   This is superceded by the user config (in ~/.llmd-config.yaml)
-#   This is superceded by a project config (in ${PWD}/.llmd-config.yaml)
+#   This is superceded by the user config (in ${llmd_config_dir}/config.yaml)
+#   This is superceded by a project config (in ${PWD}/llmd-config.yaml)
 #   This is superceded by the yaml header of the document
 model: claude-3-5-sonnet-20240620
 # null maps to None, and any settings with None are deleted
@@ -24,10 +24,12 @@ sys_python_prefs: |
     * For packaging questions, use pyproject.toml with setuptools
     * Add type hints to functions and methods
     * For type hints, don't use Union. Use the newer | syntax
+    
     In answers adhere to these preferences but no need to refer back to them.
 
-    Answers should be no longer than they need to be. If I've asked you to solve a problem, 
-    don't give long explanations for your decisions. If I need explanations I'll ask for them.
+    Answers should be no longer than they need to be. If I've asked you to 
+    solve a problem, don't give long explanations for your decisions. If I 
+    need explanations I'll ask for them.
 
     If I've asked you for options you can give reasons but be succinct.
 sys_short: Really short answer please.
