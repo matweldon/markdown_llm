@@ -2,11 +2,7 @@ import re
 import yaml
 
 
-def remove_commented_text(file_contents,pattern=r'<!--llm.*?llm-->'):
-    """Remove commented text from a string"""
-    return re.sub(pattern,'',file_contents,flags=re.DOTALL)
-
-def parse_conversation(file_contents):
+def parse_conversation(file_contents: str,ignore_images=False,ignore_links=False) -> list[dict]:
     """Parse a conversation into user and assistant turns
 
     Args:
@@ -14,42 +10,41 @@ def parse_conversation(file_contents):
            of the YAML header.
 
     Returns:
-        dict: A dictionary with two slots: conversation and metadata.
-        The conversation is a list of turns, where turns have either a role of
-         'User' or 'Assistant', with content.
-    """
-    pruned_file_contents = remove_commented_text(file_contents)
+        list[dict]: A list of turns, where turns have either a role of
+         'user' or 'assistant', with content.
 
+    Examples:
+        >>> content = "# User\\nHello\\n[file](path.txt)\\n![img](img.png)\\n# Assistant\\nHi there"
+        >>> parse_conversation(content)
+        [{'role': 'user', 'content': [
+            {'type': 'text', 'text': 'Hello'}, 
+            {'type': 'link', 'link': 'path.txt'}, 
+            {'type': 'image', 'source': 'img.png'}]
+          }, 
+         {'role': 'assistant', 'content': 'Hi there'}
+        ]
+    """
     pattern = r'# %(User|Assistant)\n(.*?)(?=# %User|# %Assistant|$)'
-    pattern_image = r'!\[.*?\]\((.*?)\)'
-    matches = re.findall(pattern, pruned_file_contents, re.DOTALL)
-    
+
+    pruned_file_contents = _remove_commented_text(file_contents)
+
     conversation = []
-    has_images = False
-    for role, content in matches:
-        if role == 'User':
-            content_images = re.findall(pattern_image,content)
-            content_images_and_text = re.split(pattern_image,content)
-            content_images_and_text = [chunk.strip() for chunk in content_images_and_text if chunk.strip()]
-            chunks = []
-            for chunk in content_images_and_text:
-                if chunk in content_images:
-                    has_images = True
-                    chunks.append({'type':'image','source':chunk})
-                else:
-                    chunks.append({'type':'text','text':chunk})
-        else:
-            content = content.strip()
-            chunks = content
+    for role, content in re.findall(pattern, pruned_file_contents, re.DOTALL):
         conversation.append({
             "role": role.lower(),
-            "content": chunks
+            "content": _parse_user_content_types(
+                content,
+                ignore_images=ignore_images,
+                ignore_links=ignore_links
+                ) if role == 'User' else content.strip()
         })
     
-    metadata = {'has_images':has_images}
-    return {'conversation':conversation,'metadata':metadata}
+    metadata = {'has_images': _has_images(conversation)}
 
-def parse_markdown_with_yaml(markdown_content) -> tuple[dict,str]:
+    return {'conversation':conversation, 'metadata': metadata}
+
+
+def parse_markdown_with_yaml(markdown_content: str) -> tuple[dict,str]:
     """Remove YAML header from markdown document and return as dict.
 
     If there is a YAML header, parse it and return it as a dict, and also
@@ -89,3 +84,30 @@ def parse_markdown_with_yaml(markdown_content) -> tuple[dict,str]:
     else:
         return dict(), markdown_content
 
+
+def _remove_commented_text(file_contents,pattern=r'<!--llm.*?llm-->'):
+    """Remove commented text from a string"""
+    return re.sub(pattern,'',file_contents,flags=re.DOTALL)
+
+
+    
+def _parse_user_content_types(content: str,ignore_images=False,ignore_links=False) -> list[dict]:
+    """Find and split text, links and images in a user turn"""
+    chunk_pattern = r'(?P<text>.*?)(?:(?P<link>(?<!!)\[.*?\]\((?P<url>.*?)\))|(?P<image>!\[.*?\]\((?P<src>.*?)\))|$)'
+    chunks = []
+    for match in re.finditer(chunk_pattern, content, re.DOTALL):
+        if match.group('text').strip():
+            chunks.append({'type': 'text', 'text': match.group('text').strip()})
+        if match.group('link') and not ignore_links:
+            chunks.append({'type': 'link', 'link': match.group('url')})
+        if match.group('image') and not ignore_images:
+            chunks.append({'type': 'image', 'source': match.group('src')})
+    return chunks
+
+def _has_images(conversation: list[dict]) -> bool:
+    """Check if a conversation contains any image elements"""
+    return any(
+        any(chunk.get('type') == 'image' for chunk in turn['content'])
+        if isinstance(turn['content'], list) else False
+        for turn in conversation
+    )

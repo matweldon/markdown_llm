@@ -4,6 +4,9 @@ from llm_tool.config_and_system import load_config_or_empty
 
 llmd_config_dir = os.getenv("llmd_config_dir",user_config_dir(appname="llmd"))
 
+USER_CONFIG = load_config_or_empty(llmd_config_dir,'config.yaml')
+PROJECT_CONFIG = load_config_or_empty(os.getcwd(),'llmd_config.yaml')
+
 DEFAULT_CONFIG = {
     "model": 'claude-3-5-sonnet-20240620',
     "system": "{sys_python_prefs}",
@@ -11,6 +14,8 @@ DEFAULT_CONFIG = {
         "max_tokens": 4096,
         #"temperature": 0.5
     },
+    "ignore_images": False,
+    "ignore_links": False,
     "sys_python_prefs": """
     These are my preferences for python:
     * Public python functions and methods should have numpy docstrings
@@ -29,6 +34,5 @@ DEFAULT_CONFIG = {
     #"editor_cmd": "vim +99999 {markdown_filepath}",
 }
 
-USER_CONFIG = load_config_or_empty(llmd_config_dir,'config.yaml')
-PROJECT_CONFIG = load_config_or_empty(os.getcwd(),'llmd_config.yaml')
+
 

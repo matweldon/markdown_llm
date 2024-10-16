@@ -10,8 +10,6 @@ def claude_vision_conversation(
     config: dict,
     ) -> str:
 
-    model_name, system_msg, model_options = config
-
     client = anthropic.Anthropic()
 
     conversation = parsed_file_contents['conversation']
@@ -20,11 +18,11 @@ def claude_vision_conversation(
     # return rehydrated_conversation
 
     message = client.messages.create(
-        model=model_name,
-        system=system_msg,
-        max_tokens=model_options.pop('max_tokens',4096),
+        model=config['model_name'],
+        system=config['system_msg'],
+        max_tokens=config['model_options'].pop('max_tokens',4096),
         messages= rehydrated_conversation,
-        **model_options
+        **config['model_options']
     )
 
     response = message.content[0].text

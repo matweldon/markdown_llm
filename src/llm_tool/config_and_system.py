@@ -28,7 +28,7 @@ def merge_configs(configs: Iterable[dict]):
     return merged_config
 
 
-def get_config(configs: Iterable[dict]):
+def get_config(configs: Iterable[dict]) -> dict:
     """Get config from the YAML config locations in order
     of priority.
 
@@ -46,15 +46,18 @@ def get_config(configs: Iterable[dict]):
         templated system message and other options.
 
     Returns:
-        Tuple[str,str,dict]: A tuple containing the model name,
+        dict: A dict containing the model name,
         the reconstituted system message including snippets,
-        and a dictionary containing remaining options
+        a dictionary containing model options, ignore_images,
+        ignore_links
     """
 
     merged_config = merge_configs(configs)
     model_name = merged_config.get('model')
     template_system_msg = merged_config.get('system')
     model_options = merged_config.get('options')
+    ignore_links = merged_config.pop('ignore_links',False)
+    ignore_images = merged_config.pop('ignore_images',False)
 
     sys_snippets = {
         k: v for k, v in merged_config.items() 
@@ -63,7 +66,11 @@ def get_config(configs: Iterable[dict]):
 
     system_msg = template_system_msg.format_map(sys_snippets)
 
-    return model_name, system_msg, model_options
+    return {
+        "model_name": model_name, "system_msg": system_msg, 
+        "model_options": model_options, 
+        "ignore_links": ignore_links, "ignore_images": ignore_images
+        }
 
 
 def get_or_make_user_config_path() -> None:

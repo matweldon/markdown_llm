@@ -31,18 +31,10 @@ def chunk_user_assistant_turns(conversation):
 
 
 def llm_conversation(parsed_file_contents: dict,config: dict) -> str:
-    # assert parsed_file_contents['metadata']['has_images'] == False,(
-    #     "llm can't handle conversations with images"
-    # )
 
     chunked_conversation = chunk_user_assistant_turns(parsed_file_contents['conversation'])
 
-    model_name, system_msg, model_options = config
-
-    # print(f"Using model {model_name}.")
-    # print(f"Using system message:{system_msg}")
-
-    model = llm.get_model(model_name)
+    model = llm.get_model(config['model_name'])
     conversation = model.conversation()
 
     if 'assistant' not in chunked_conversation[-1].keys():
@@ -53,15 +45,15 @@ def llm_conversation(parsed_file_contents: dict,config: dict) -> str:
                 prompt=turn['user'],
                 response=turn['assistant'],
                 model=model,
-                system=system_msg,
+                system=config['system_msg'],
             )
             for turn in chunked_conversation
         ]
 
         new_response = conversation.prompt(
             new_prompt['user'],
-            system=system_msg,
-            **model_options,
+            system=config['system_msg'],
+            **config['model_options'],
         )
         new_formatted_response = f"\n# %Assistant\n\n{new_response}"
     else:

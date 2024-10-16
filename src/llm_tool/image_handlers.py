@@ -9,14 +9,14 @@ def get_base64(filepath: str | os.PathLike):
     img_base64 = base64.b64encode(img_bin).decode('utf-8')
     return img_base64
 
-def rehydrate_image(rel_path,base_path):
+def rehydrate_image(rel_path: str | os.PathLike, base_path: str | os.PathLike):
     """Convert rel_path into full base64-encoded image
 
     Args:
         rel_path (str): A relative path to an image file
         base_path (str): An absolute path from which the rel path is relative
     """
-    absolute_path = os.path.join(base_path,rel_path)
+    absolute_path = Path(base_path / rel_path).resolve()
     mtype = Path(rel_path).suffix[1:]
     if mtype == 'jpg':
         mtype = 'jpeg'
