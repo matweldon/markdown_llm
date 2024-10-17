@@ -13,6 +13,7 @@ options:
 # Command to open the editor. Either a templated string with {markdown_filepath}
 # or a bare string (the filepath will be inserted at the end)
 # e.g. editor_cmd: vim +99999
+# e.g. editor_cmd: code-oss-cloud-workstations -r -g {markdown_filepath}:99999 # For Google Cloud Workstations
 editor_cmd: code -r -g {markdown_filepath}:99999
 # Entries with the prefix 'sys_' are reusable system snippets.
 # They can be included in any system message using templating
