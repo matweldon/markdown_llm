@@ -1,8 +1,8 @@
 import os
-from platformdirs import user_config_dir
-from llm_tool.config_and_system import load_config_or_empty
+from pathlib import Path
+from llm_tool.config_and_system import load_config_or_empty, get_or_make_user_config_path
 
-llmd_config_dir = os.getenv("llmd_config_dir",user_config_dir(appname="llmd"))
+llmd_config_dir = Path(get_or_make_user_config_path(shell=False)).parent
 
 USER_CONFIG = load_config_or_empty(llmd_config_dir,'config.yaml')
 PROJECT_CONFIG = load_config_or_empty(os.getcwd(),'llmd_config.yaml')

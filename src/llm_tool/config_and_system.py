@@ -73,23 +73,27 @@ def get_config(configs: Iterable[dict]) -> dict:
         }
 
 
-def get_or_make_user_config_path() -> None:
+def get_or_make_user_config_path(shell=True) -> None:
     """Prints user config path
 
     If the folder doesn't exist it is created.
 
-    Use the command llmd-config-path to run this module.
+    Use the command llmd-config-path to run this from the shell.
 
     For example, to copy a local yaml to the user config dir,
     run:
     > cp llmd_config.yaml "$(llmd-config-path)"
+    The quote marks are important on Mac (Stupid spaces!)
     """
     config_dir = os.getenv("llmd_config_dir",user_config_dir("llmd"))
     config_dir = Path(config_dir)
     config_dir.mkdir(parents=True, exist_ok=True)
     
     config_path = config_dir / "config.yaml"
-    print(config_path)
+    if shell:
+        print(config_path)
+    else:
+        return config_path
 
 def load_config_or_empty(path: str, filename: str) -> dict:
     """
