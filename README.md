@@ -38,7 +38,7 @@ pip install -e .
 
 2. Set the API key (see below).
 
-3. (Optional) ensure you have the `code` command in your PATH, or edit the `editor_cmd` option in config (see below) to open the text editor of your choice.
+3. Ensure you have the `code` command in your PATH, or edit the `editor_cmd` option in config (see below) to open the text editor of your choice.
 
 
 ## API key management
@@ -54,21 +54,29 @@ The vision model will work with an 'ANTHROPIC_API_KEY' in a `.env` file in the r
 
 ## Usage
 
-Open your markdown file, and add the following syntax where you want to start a chat:
-
-```
-# %User
-
-Write the prompt here...
-```
-
 Run the script:
   
 ```bash
 llmd your_file.md
 ```
 
-The LLM's response will be inserted directly into your markdown file.
+and when the markdown prompt appears, write your prompt.
+
+```markdown
+---
+model: claude-3-5-sonnet-20240620
+system: '{sys_python_prefs}'
+date: 17 October 2024
+options:
+  max_tokens: 4096
+---
+
+# %User
+
+What is President Reagan's first name? Just give me the answer.
+```
+
+Then run the command again. The LLM's response will be inserted directly into your markdown file.
 
 ```
 # %User
@@ -78,7 +86,7 @@ What is President Reagan's first name? Just give me the answer.
 Ronald
 ```
 
-Then you can carry on the conversation
+Then you can carry on the conversation:
 
 ```
 # %User
@@ -88,13 +96,11 @@ What about Thatcher?
 Margaret
 ```
 
-You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This allows you to edit the conversation history, for example to rerun responses to obtain a sample of several different answers.
-
-The API is stateless - the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation.
+You can also comment out parts of the conversation using `<!--llm` and `llm-->`. This allows you to edit the conversation history, for example to rerun responses to obtain a sample of several different answers. The API is stateless - the API call reconstructs the full conversation each time a request is sent. This means that you can "put words into the LLM's mouth" and generally mess around with the flow of the conversation.
 
 ### Text editor integration
 
-You don't have to start with an open text editor. You can create a new file with `llmd new_file.md` and start typing the prompt. Then run the command again to get the response. You just need to ensure the `code` command (for VS Code) is in your PATH. To use other text editors, set the 'editor_cmd' option in a USER or PROJECT config yaml (see below).
+To make the file initialisation work, you need to ensure the `code` command (for VS Code) is in your PATH. To use other text editors, set the 'editor_cmd' option in a USER or PROJECT config yaml (see below). Otherwise, you can still open the file that is created and enter your prompt manually.
 
 Once you've written a prompt, setting up a keyboard shortcut in your editor saves time moving back and forth between the editor and the terminal. To set up a keyboard shortcut in VS Code, open `keybindings.json` from the Command palette and add this entry (substituting your preferred key combination):
 
@@ -116,7 +122,24 @@ Currently, the package has only been tested with Anthropic Claude Sonnet 3.5. Bu
 
 There are some usage examples in the [examples](examples/) folder. You'll see that I used this package quite heavily in writing the package.
 
-### Images
+
+### Inline links to text
+
+You can add relative file links:
+
+```
+# %User
+
+[](./path/to/script.py)
+
+Write some tests for this function.
+```
+
+The full file contents are included in the prompt. Inlining links can be switched off by setting `ignore_links: true` in the yaml header. Paths are relative to the file path of the markdown file.
+
+> [!TIP] Inlining files can be a useful way to handle prompts containing 'unsafe' patterns that would otherwise conflict with the package's text parsing,  such as markdown file links or image links, because text included in this way is not subjected to any more parsing.
+
+### Links to images
 
 The tool supports vision models - currently only Anthropic. To add an image to the chat, add a markdown link to the relative path of the image:
 
@@ -131,10 +154,22 @@ and then run the command. So far, I've only tested this with png files but it sh
 
 Image markdown supports the same options, but aliases are not supported because the package calls the Anthropic API directly rather than using `llm`.
 
+Inlining images can be switched off by setting `ignore_images: true` in the yaml header.
+
 
 ## Configuration
 
-You can optionally set model, system message and other options for the conversation with a YAML header at the top of the markdown document.
+There are three configuration options, in order of decreasing priority:
+
+* File YAML header
+* PROJECT llm_config.yaml in the current working directory
+* USER config.yaml in a user config folder (system-dependent location)
+
+The default config settings are defined in [__init__.py](./src/llm_tool/__init__.py). Setting an element to 'null' in a yaml config (equivalent to `None` in code) will unset a setting from a lower-priority config.
+
+### YAML header in file
+
+The model, system message, `ignore_links`, `ignore_images` and model options can be set in a file yaml header. The header is re-parsed each time the command is called, so the settings can be changed mid-conversation. For example, you can set `ignore_images: true` to save tokens when an image is no longer needed.
 
 When using text-only (not vision) models, you can specify the model using aliases set with `llm aliases set` from the llm package.
 
@@ -157,9 +192,11 @@ Model options depend on the model type. For both OpenAI and Anthropic they inclu
 
 [OpenAI model options](https://github.com/simonw/llm/blob/d654c9521235a737e59a4f1d77cf4682589123ec/llm/default_plugins/openai_models.py#L163)
 
-Other configuration options include USER and PROJECT config yaml files. The USER yaml file is located in the OS's preferred location for user configs. You can print the location with `llmd-config-path`. The PROJECT config yaml is a file named 'llmd_config.yaml' located in the current working directory. The order of priority of config settings is: file header > PROJECT > USER > DEFAULT (defined in `__init__.py`).
+### USER and PROJECT configs
 
-The repo contains an example 'llmd_config.yaml'. The easiest way to create a new USER config is `cp llmd_config.yaml "$(llmd-config-path)"`. This can be edited with `code "$(llmd-config-path)"`.
+Other configuration options include USER and PROJECT config yaml files. The most important setting here which is never set in the yaml header is `editor_cmd` which determines how the file is initially opened. The USER yaml file is located in the OS's preferred location for user configs. You can print the location with `llmd-config-path`. The PROJECT config yaml is a file named 'llmd_config.yaml' located in the current working directory.
+
+The repo contains an example PROJECT config: 'llmd_config.yaml'. The easiest way to create a new USER config is `cp llmd_config.yaml "$(llmd-config-path)"`. This can be edited with `code "$(llmd-config-path)"`.
 
 ### System message templates and snippets
 
@@ -173,6 +210,11 @@ For example, I have added a list of my python preferences to the DEFAULT_CONFIG 
 * Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt
 * Make it easier to install without having to use Simon W's API interface
 * Turn it into a proper command line interface with flags
+* Feature: when parsing links to files, allow the user to pass the code type inside the square brackets:
+  - `[lang:python](path/to/script.py)`
+  - `{'type': 'link', 'link': 'path/to/script.py', 'language': 'python'}
+  - Which then adds a fenced code block when inlining the text
+  - If there's nothing in the square brackets this doesn't happen
 * Parse links to websites, strip tags and inline the text
 
 ## Acknowledgments

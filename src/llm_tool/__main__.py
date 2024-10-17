@@ -29,7 +29,7 @@ options:
 
 EDITOR = (
     merge_configs([DEFAULT_CONFIG,USER_CONFIG,PROJECT_CONFIG])
-    .get('editor_cmd')
+    .get('editor_cmd',None)
     )
 
 def main(markdown_filepath: str | PathLike[str] | None = None):
@@ -50,10 +50,21 @@ def main(markdown_filepath: str | PathLike[str] | None = None):
             f.write(md_header)
         # Open EDITOR at line 2
         editor_command_list = make_editor_command(markdown_filepath,EDITOR)
-        subprocess.run(editor_command_list)
+        if editor_command_list:
+            try:
+                subprocess.run(editor_command_list)
+            except Exception:
+                print(f"""
+                The shell command to open the file didn't work. Try setting 'editor_cmd' in your config.
+                The file has been created at {markdown_filepath}.
+                """)
+        else:
+            print(f"editor_cmd not set. File created at {markdown_filepath}")
 
 
-def make_editor_command(filepath: str | PathLike[str], editor_command: str) -> list[str]:
+def make_editor_command(filepath: str | PathLike[str], editor_command: str | None = None) -> list[str]:
+    if editor_command is None:
+        return []
     if re.search(r'{markdown_filepath}',editor_command):
         full_editor_command = editor_command.format(markdown_filepath=filepath)
         editor_command_list = full_editor_command.split()
