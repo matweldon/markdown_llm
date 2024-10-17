@@ -15,7 +15,7 @@ Why would you want to use this instead of `llm chat`?
 * Using your favourite text editor is easier than the terminal
 * Working in a markdown document, you get nice syntax highlighting when the LLM writes fenced code blocks
 * You can comment out parts of the conversation history (see below)
-* This tool has support for markdown links to images. Hyperlinks to other documents and websites to follow.
+* This tool has support for markdown links to images and files. Links to websites coming soon.
 * It opens up possibilities for experimentation - by editing the chat history you can see how different models with different settings would answer the same question, and even get models conversing with each other.
 
 This project is a very early work-in-progress. Use only if you're willing to troubleshoot.
