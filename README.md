@@ -78,7 +78,7 @@ What is President Reagan's first name? Just give me the answer.
 
 Then run the command again. The LLM's response will be inserted directly into your markdown file.
 
-```
+```markdown
 # %User
 What is President Reagan's first name? Just give me the answer.
 
@@ -88,7 +88,7 @@ Ronald
 
 Then you can carry on the conversation:
 
-```
+```markdown
 # %User
 What about Thatcher?
 
@@ -127,7 +127,7 @@ There are some usage examples in the [examples](examples/) folder. You'll see th
 
 You can add relative file links:
 
-```
+```markdown
 # %User
 
 [](./path/to/script.py)
@@ -137,13 +137,14 @@ Write some tests for this function.
 
 The full file contents are included in the prompt. Inlining links can be switched off by setting `ignore_links: true` in the yaml header. Paths are relative to the file path of the markdown file.
 
-> [!TIP] Inlining files can be a useful way to handle prompts containing 'unsafe' patterns that would otherwise conflict with the package's text parsing,  such as markdown file links or image links, because text included in this way is not subjected to any more parsing.
+> [!NOTE]
+> Inlining files can be a useful way to handle prompts containing 'unsafe' patterns that would otherwise conflict with the package's text parsing,  such as markdown file links or image links, because text included in this way is not subjected to any more parsing.
 
 ### Links to images
 
 The tool supports vision models - currently only Anthropic. To add an image to the chat, add a markdown link to the relative path of the image:
 
-```
+```markdown
 # %User
 
 ![image1](data/cats.png)
@@ -207,15 +208,19 @@ For example, I have added a list of my python preferences to the DEFAULT_CONFIG 
 
 ## To do
 
-* Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt
-* Make it easier to install without having to use Simon W's API interface
-* Turn it into a proper command line interface with flags
-* Feature: when parsing links to files, allow the user to pass the code type inside the square brackets:
+- [x] Initialise and open the file automatically
+- [x] Handle images
+- [x] Implement a config system
+- [x] Make a system to use reusable templated system message snippets.
+- [x] Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt
+- [ ] Make it easier to install without having to use Simon W's API interface
+- [ ] Implement click command line interface with flags
+- [ ] Feature: when parsing links to files, allow the user to pass the code type inside the square brackets:
   - `[lang:python](path/to/script.py)`
-  - `{'type': 'link', 'link': 'path/to/script.py', 'language': 'python'}
+  - `{'type': 'link', 'link': 'path/to/script.py', 'language': 'python'}`
   - Which then adds a fenced code block when inlining the text
   - If there's nothing in the square brackets this doesn't happen
-* Parse links to websites, strip tags and inline the text
+- [ ] Parse links to websites, strip tags and inline the text
 
 ## Acknowledgments
 
