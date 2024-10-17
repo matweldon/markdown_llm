@@ -174,7 +174,7 @@ The model, system message, `ignore_links`, `ignore_images` and model options can
 
 When using text-only (not vision) models, you can specify the model using aliases set with `llm aliases set` from the llm package.
 
-```
+```markdown
 ---
 model: sonnet 
 system: Only speak in French.
