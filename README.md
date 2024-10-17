@@ -208,11 +208,11 @@ For example, I have added a list of my python preferences to the DEFAULT_CONFIG 
 
 ## To do
 
-- [x] Initialise and open the file automatically
-- [x] Handle images
-- [x] Implement a config system
-- [x] Make a system to use reusable templated system message snippets.
-- [x] Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt
+- [x] ~~Initialise and open the file automatically~~
+- [x] ~~Handle images~~
+- [x] ~~Implement a config system~~
+- [x] ~~Make a system to use reusable templated system message snippets.~~
+- [x] ~~Parse hyperlinks to other text files and inline the text, so that I don't have to copy and paste it all into the prompt~~
 - [ ] Make it easier to install without having to use Simon W's API interface
 - [ ] Implement click command line interface with flags
 - [ ] Feature: when parsing links to files, allow the user to pass the code type inside the square brackets:
