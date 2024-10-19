@@ -216,9 +216,9 @@ For example, I have added a list of my python preferences to the DEFAULT_CONFIG 
 - [ ] Make it easier to install without having to use Simon W's API interface
 - [ ] Implement click command line interface with flags
 - [ ] Feature: when parsing links to files, allow the user to pass the code type inside the square brackets:
-  - `[lang:python](path/to/script.py)`
-  - `{'type': 'link', 'link': 'path/to/script.py', 'language': 'python'}`
-  - Which then adds a fenced code block when inlining the text
+  - E.g. `[lang:python](path/to/script.py)`
+  - is parsed as: `{'type': 'link', 'link': 'path/to/script.py', 'language': 'python'}`
+  - Which then adds a fenced code block when inlining the text, which may or may not make any difference to the LLM in reading the code.
   - If there's nothing in the square brackets this doesn't happen
 - [ ] Parse links to websites, strip tags and inline the text
 
