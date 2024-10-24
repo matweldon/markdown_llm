@@ -18,7 +18,13 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = ["python-dotenv","llm","llm-claude-3","anthropic","platformdirs"]
+dependencies = [
+    "python-dotenv",
+    "llm >= 0.16",
+    "llm-claude-3 >= 0.5",
+    "anthropic",
+    "platformdirs",
+    ]
 
 [project.scripts]
 llmd = "llm_tool.__main__:main"

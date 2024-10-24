@@ -8,10 +8,10 @@ USER_CONFIG = load_config_or_empty(llmd_config_dir,'config.yaml')
 PROJECT_CONFIG = load_config_or_empty(os.getcwd(),'llmd_config.yaml')
 
 DEFAULT_CONFIG = {
-    "model": 'claude-3-5-sonnet-20240620',
+    "model": 'claude-3-5-sonnet-latest',
     "system": "{sys_python_prefs}",
     "options": {
-        "max_tokens": 4096,
+        "max_tokens": 8192,
         #"temperature": 0.5
     },
     "ignore_images": False,

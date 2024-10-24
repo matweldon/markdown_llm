@@ -12,25 +12,27 @@ import sys
 import subprocess
 from datetime import date
 
+CONFIGS = merge_configs([DEFAULT_CONFIG,USER_CONFIG,PROJECT_CONFIG])
+EDITOR = CONFIGS.get('editor_cmd',None)
+
 md_header = """---
-model: claude-3-5-sonnet-20240620
-system: '{sys_python_prefs}'
+model: {model_name}
+system: "{system_msg}"
 date: {todays_date}
 options:
-  max_tokens: 4096
+  max_tokens: {max_tokens}
 ---
 
 # %User
 
 """.format(
-    sys_python_prefs="{sys_python_prefs}", # A clunky hack to partially evaluate the template
-    todays_date=date.today().strftime("%d %B %Y"),
+    model_name = CONFIGS.get('model','claude-3-5-sonnet-latest'),
+    system_msg = CONFIGS.get('system',''), 
+    todays_date= date.today().strftime("%d %B %Y"),
+    max_tokens = CONFIGS.get('options').get('max_tokens',1024),
 )
 
-EDITOR = (
-    merge_configs([DEFAULT_CONFIG,USER_CONFIG,PROJECT_CONFIG])
-    .get('editor_cmd',None)
-    )
+
 
 def main(markdown_filepath: str | PathLike[str] | None = None):
 

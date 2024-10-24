@@ -58,11 +58,11 @@ jiter==0.5.0
     # via
     #   anthropic
     #   openai
-llm==0.15
+llm==0.16
     # via
     #   llm-claude-3
     #   llmd (pyproject.toml)
-llm-claude-3==0.4
+llm-claude-3==0.5
     # via llmd (pyproject.toml)
 openai==1.40.6
     # via llm
