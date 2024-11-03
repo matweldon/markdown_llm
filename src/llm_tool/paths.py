@@ -2,6 +2,23 @@ from pathlib import Path
 import string
 import os
 
+
+def resolve_existing_filepath(rel_path: str | Path, base_path: str | Path = ".") -> Path:
+    """Resolve a filepath, relative to a base path, and check it exists.
+    
+    returns
+    -------
+    pathlib.Path: the absolute path
+    """
+    absolute_path = Path(base_path) / Path(rel_path)
+    absolute_path = absolute_path.resolve()
+    new_or_exists = validate_file_path(absolute_path)
+    if new_or_exists == 'new':
+        raise ValueError("File does not exist")
+    
+    return absolute_path
+
+
 def validate_file_path(path: str | Path) -> str:
     """
     Validate a file path and return its type.

@@ -1,13 +1,18 @@
 import re
 import yaml
+from llm_tool.paths import resolve_existing_filepath
+import os
 
 
-def parse_conversation(file_contents: str,ignore_images=False,ignore_links=False) -> list[dict]:
+def parse_conversation(file_contents: str,base_path: str | os.PathLike = ".", ignore_images=False,ignore_links=False) -> list[dict]:
     """Parse a conversation into user and assistant turns
 
     Args:
         file_contents (str): The contents of the markdown file after removal
            of the YAML header.
+        base_path (str | os.PathLike): The base path to resolve relative links.
+        ignore_images (bool)
+        ignore_links (bool)
 
     Returns:
         list[dict]: A list of turns, where turns have either a role of
@@ -18,8 +23,8 @@ def parse_conversation(file_contents: str,ignore_images=False,ignore_links=False
         >>> parse_conversation(content)
         [{'role': 'user', 'content': [
             {'type': 'text', 'text': 'Hello'}, 
-            {'type': 'link', 'link': 'path.txt'}, 
-            {'type': 'image', 'source': 'img.png'}]
+            {'type': 'link', 'link': '/path/to/path.txt'}, 
+            {'type': 'image', 'source': '/path/to/img.png'}]
           }, 
          {'role': 'assistant', 'content': 'Hi there'}
         ]
@@ -34,6 +39,7 @@ def parse_conversation(file_contents: str,ignore_images=False,ignore_links=False
             "role": role.lower(),
             "content": _parse_user_content_types(
                 content,
+                base_path = base_path,
                 ignore_images=ignore_images,
                 ignore_links=ignore_links
                 ) if role == 'User' else content.strip()
@@ -91,17 +97,17 @@ def _remove_commented_text(file_contents,pattern=r'<!--llm.*?llm-->'):
 
 
     
-def _parse_user_content_types(content: str,ignore_images=False,ignore_links=False) -> list[dict]:
+def _parse_user_content_types(content: str, base_path: str | os.PathLike = ".", ignore_images=False,ignore_links=False) -> list[dict]:
     """Find and split text, links and images in a user turn"""
-    chunk_pattern = r'(?P<text>.*?)(?:(?P<link>(?<!!)\[.*?\]\((?P<url>.*?)\))|(?P<image>!\[.*?\]\((?P<src>.*?)\))|$)'
+    chunk_pattern = r'(?P<text>.*?)(?:(?P<link>(?<!!)\[.*?\]\((?P<linkpath>.*?)\))|(?P<image>!\[.*?\]\((?P<imagepath>.*?)\))|$)'
     chunks = []
     for match in re.finditer(chunk_pattern, content, re.DOTALL):
         if match.group('text').strip():
             chunks.append({'type': 'text', 'text': match.group('text').strip()})
         if match.group('link') and not ignore_links:
-            chunks.append({'type': 'link', 'link': match.group('url')})
+            chunks.append({'type': 'link', 'link': str(resolve_existing_filepath(match.group('linkpath'),base_path))})
         if match.group('image') and not ignore_images:
-            chunks.append({'type': 'image', 'source': match.group('src')})
+            chunks.append({'type': 'image', 'source': str(resolve_existing_filepath(match.group('imagepath'),base_path))})
     return chunks
 
 def _has_images(conversation: list[dict]) -> bool:

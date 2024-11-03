@@ -96,12 +96,13 @@ def read_and_write_response(validated_filepath: str | PathLike[str]):
     
     parsed_conversation = parse_conversation(
         content_body,
+        base_path=base_path,
         ignore_images=config['ignore_images'],
         ignore_links=config['ignore_links'],
         )
     
     if not config['ignore_links']:
-        parsed_conversation['conversation'] = replace_links_with_file_contents(parsed_conversation['conversation'],base_path)
+        parsed_conversation['conversation'] = replace_links_with_file_contents(parsed_conversation['conversation'])
 
     if parsed_conversation['metadata']['has_images']:
         print('Handling images by using Anthropic API')
