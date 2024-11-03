@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmd"
-version = "0.0.25"
+version = "0.0.30"
 authors = [
     {name = "Mat Weldon", email = "nope@nope.com"},
 ]
@@ -20,8 +20,8 @@ classifiers = [
 ]
 dependencies = [
     "python-dotenv",
-    "llm >= 0.16",
-    "llm-claude-3 >= 0.5",
+    "llm >= 0.17.1",
+    "llm-claude-3 >= 0.7",
     "anthropic",
     "platformdirs",
     ]
