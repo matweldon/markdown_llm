@@ -34,11 +34,5 @@ llmd-config-path = "llm_tool.config_and_system:get_or_make_user_config_path"
 "Homepage" = "https://github.com/matweldon/markdown_llm"
 "Bug Tracker" = "https://github.com/matweldon/markdown_llm/issues"
 
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.in"]}
-#version = {attr = "llm_tool.__version__"}
-# For dynamic version, just add `__version__ = ****` to __init__.py, and add `dynamic = ["version",...]` above
-# and remove `version = ***` under [project] above
-
 [tool.setuptools]
 include-package-data = true
