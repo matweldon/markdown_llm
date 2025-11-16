@@ -3,6 +3,42 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv()) # Loads any API key env variables set in .env
 
+
+def _create_fake_response(model, prompt_text, response_text, system=None):
+    """
+    Recreate the functionality of llm.Response.fake() which was removed in llm 0.18.
+
+    This helper function constructs a Response object that appears to be from a
+    completed API call, allowing us to reconstruct conversation history.
+
+    Args:
+        model: The llm Model instance
+        prompt_text: The user's prompt text
+        response_text: The assistant's response text
+        system: Optional system message
+
+    Returns:
+        llm.Response: A fake response object with the given content
+    """
+    prompt_obj = llm.Prompt(
+        prompt_text,
+        model=model,
+        system=system,
+    )
+
+    response_obj = llm.Response(
+        prompt=prompt_obj,
+        model=model,
+        stream=False,
+    )
+
+    # Set internal state to make it look like a completed response
+    response_obj._done = True
+    response_obj._chunks = [response_text]
+
+    return response_obj
+
+
 def chunk_user_assistant_turns(conversation):
     result = []
     current_pair = {}
@@ -39,12 +75,12 @@ def llm_conversation(parsed_file_contents: dict,config: dict) -> str:
 
     if 'assistant' not in chunked_conversation[-1].keys():
         new_prompt = chunked_conversation.pop()
-    
+
         conversation.responses += [
-            llm.Response.fake(
-                prompt=turn['user'],
-                response=turn['assistant'],
+            _create_fake_response(
                 model=model,
+                prompt_text=turn['user'],
+                response_text=turn['assistant'],
                 system=config['system_msg'],
             )
             for turn in chunked_conversation
