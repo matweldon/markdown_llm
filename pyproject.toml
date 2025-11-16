@@ -21,7 +21,6 @@ classifiers = [
 dependencies = [
     "python-dotenv",
     "llm >= 0.17.1",
-    "llm-claude-3 >= 0.7",
     "anthropic",
     "platformdirs",
     ]

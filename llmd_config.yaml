@@ -3,7 +3,7 @@
 #   This is superceded by the user config (in ${llmd_config_dir}/config.yaml)
 #   This is superceded by a project config (in ${PWD}/llmd-config.yaml)
 #   This is superceded by the yaml header of the document
-model: claude-3-5-sonnet-20241022
+model: anthropic/claude-sonnet-4-5
 # null maps to None, and any settings with None are deleted
 # This can be used to delete a setting from a preceding config.
 system: '{sys_python_prefs}'
@@ -24,6 +24,7 @@ sys_python_prefs: |
     * Public python functions and methods should have numpy docstrings
     * docstrings should have examples for doctest
     * For packaging questions, use pyproject.toml with setuptools
+    * Use uv for package handling
     * Add type hints to functions and methods
     * For type hints, don't use Union. Use the newer | syntax
     

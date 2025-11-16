@@ -17,7 +17,6 @@ Why would you want to use this instead of `llm chat`?
 * This tool has support for markdown links to images and files. Links to websites coming soon.
 * It opens up possibilities for experimentation - by editing the chat history you can see how different models with different settings would answer the same question, and even get models conversing with each other.
 
-This project is a very early work-in-progress. Use only if you're willing to troubleshoot.
 
 ## Installation
 
@@ -37,8 +36,28 @@ pip install -e .
 
 2. Set the API key (see below).
 
-3. Ensure you have the `code` command in your PATH, or edit the `editor_cmd` option in config (see below) to open the text editor of your choice.
+3. Ensure you have the `code` command in your PATH to use VS Code integration, or edit the `editor_cmd` option in config (see below) to open the text editor of your choice.
 
+### Installation with uv
+
+To install the package as a standalone tool using [uv](https://uv.run/), run:
+
+```bash
+uv tool install git+https://github.com/matweldon/markdown_llm.git
+```
+
+It's best to install the plugins you need for the llm package at the same time, for example:
+
+```bash
+uv tool install git+https://github.com/matweldon/markdown_llm.git --with llm-anthropic --with llm-gemini
+```
+
+For example, I have a package that allows Anthropic models to be accessed via Google Vertex AI. To install that plugin at the same time, run:
+
+```bash
+uv tool install git+https://github.com/matweldon/markdown_llm.git \
+ --with git+https://github.com/matweldon/llm-anthropic-vertex.git
+```
 
 ## API key management
 
